@@ -2,14 +2,14 @@ const puppeteer = require('puppeteer');
 require('../../globals');
 const {DashBoardPage} = require('../../uimap/BO/dashboard/dashboard.js');
 const {AuthenticationPage} = require('../../uimap/BO/authentication/authentication');
-const {Menu} = require('../../uimap/BO/Menu/menu');
+const {Menu} = require('../../uimap/BO/menu/menu');
 const {HomePage} = require('../../uimap/FO/homePage/homePage');
 const {AuthenticationPageFO} = require('../../uimap/FO/authentication/authentication');
 
 let fs = require('fs');
 let options = {
   timeout: 30000,
-  headless: false,
+  headless: global.headless ,
   defaultViewport: {
     width: 0,
     height: 0
@@ -18,7 +18,6 @@ let options = {
 };
 global.tab = [];
 global.selectedValue = [];
-
 
 class CommonClient {
   async open() {
@@ -311,7 +310,6 @@ class CommonClient {
   async getSelectedValue(selector, value) {
     await page.waitForSelector(selector, {timeout: 90000});
     global.selectedValue = await page.select(selector, value);
-
   }
 
   async checkSelectedValue(selector, textToCheckWith, wait = 0) {
@@ -361,6 +359,7 @@ class CommonClient {
       expect(isSelected).to.be.true;
     })
   }
+
   async checkTextareaValue(selector, textToCheckWith, parameter = 'equal', wait = 0) {
     switch (parameter) {
       case "equal":

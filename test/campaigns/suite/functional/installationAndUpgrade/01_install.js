@@ -1,6 +1,6 @@
 const Install = require('../../../../campaigns/clients/common_scenarios/install/install');
 
-scenario('Install the shop', client => {
+scenario('Install the shop', () => {
   scenario('Open the browser then access to install page', client => {
     test('should open the browser', async () => {
       await client.open();
@@ -9,7 +9,6 @@ scenario('Install the shop', client => {
     test('should go to the install page', async () => {
       await client.openShopURL(global.installFolderName);
       await client.waitFor(5000);
-
     });
     Install.installShop(global.language, ['en']);
     scenario('Sign in the "Front Office"', client => {
@@ -19,12 +18,4 @@ scenario('Install the shop', client => {
       });
     }, 'common_client');
   }, 'common_client');
-
 }, 'common_client', true);
-
-
-
-
-
-
-

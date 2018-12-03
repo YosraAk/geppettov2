@@ -27,3 +27,5 @@ global.adminFolderName = argv.ADMIN_FOLDER_NAME || '/admin-dev';
 
 global.test_addons = !argv.TEST_ADDONS; //Cast as boolean
 global.module_tech_name = argv.MODULE || 'ps_legalcompliance';
+
+global.headless = argv.headless || false;

@@ -44,11 +44,11 @@ module.exports = {
     Improve: {
       Modules: {
         modules_menu_link: '#subtab-AdminParentModulesSf a', //@TODO
-        module_catalog_submenu_link: '#subtab-AdminModulesSf a', //@TODO
+        module_manager_submenu_link: '#subtab-AdminModulesSf a', //@TODO
         installed_modules_tabs: '#subtab-AdminModulesManage',
         notifications_tabs: '#subtab-AdminModulesNotifications',
         selection_tab: '#subtab-AdminModulesCatalog',
-        module_manager_submenu_link: '#subtab-AdminAddonsCatalog a, #subtab-AdminParentModulesCatalog a', //@TODO
+        module_catalog_submenu_link: '#subtab-AdminAddonsCatalog a, #subtab-AdminParentModulesCatalog a', //@TODO
       },
       Design: {
         design_menu_link: '#subtab-AdminParentThemes a',  //@TODO
