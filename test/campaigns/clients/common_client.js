@@ -125,7 +125,6 @@ class CommonClient {
   async searchByValue(nameSelector, buttonSelector, value) {
     await this.waitFor(nameSelector);
     await this.clearInputAndSetValue(nameSelector, value, 2000);
-    console.log(buttonSelector);
     await this.waitForAndClick(buttonSelector, 2000, {visible: true});
   }
 
@@ -361,6 +360,7 @@ class CommonClient {
       expect(isSelected).to.be.true;
     })
   }
+
   async checkTextareaValue(selector, textToCheckWith, parameter = 'equal', wait = 0) {
     switch (parameter) {
       case "equal":
@@ -380,6 +380,63 @@ class CommonClient {
     await page.waitFor(2000);
     await this.isVisible(selector);
     await expect(visible).to.be.false;
+  }
+
+  async isOpen(selector, attribute, textToCheckWith, wait = 0) {
+    await this.waitFor(wait);
+    await this.waitFor(selector);
+    await page.$eval(selector, (el, attribute) => {
+      const parentElement = el.parentElement;
+      return parentElement.getAttribute(attribute);
+    }, attribute).then((value) => {
+      global.isOpen = value.indexOf('open') !== -1;
+    });
+  }
+
+  async goToSubtabMenuPage(menuSelector, selector, wait = 0) {
+    await this.isOpen(menuSelector, 'class', 'open', wait);
+    if (global.isOpen) {
+      await this.waitForAndClick(selector, wait);
+    }
+    else {
+      await this.waitForAndClick(menuSelector, wait);
+      await this.waitForAndClick(selector, wait);
+    }
+  }
+
+  async search(selector, value, search_button, wait = 0) {
+    if (global.visible) {
+      await this.clearInputAndSetValue(selector, value, wait);
+      await this.keyboardPress('Enter');
+    }
+  }
+
+  async checkExistence(selector, data) {
+    if (global.visible) {
+      await this.waitFor(selector);
+      await page.$eval(selector, el => el.innerText).then((text) => expect(text.trim).to.equal(data.trim));
+    }
+  }
+
+  async editObjectData(object, type = '') {
+    for (let key in object) {
+      if (object.hasOwnProperty(key) && key !== 'type') {
+        if (typeof object[key] === 'string') {
+          parseInt(object[key]) ? object[key] = (parseInt(object[key]) + 10).toString() : object[key] = 'update' + object[key];
+        } else if (typeof object[key] === 'number') {
+          object[key] += 10;
+        } else if (typeof object[key] === 'object') {
+          this.editObjectData(object[key]);
+        }
+      }
+      if (type !== '') {
+        object['type'] = type;
+      }
+    }
+  }
+
+  async reload(options = {}) {
+    await page.reload();
   }
 }
 
